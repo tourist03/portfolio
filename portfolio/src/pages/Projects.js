@@ -8,37 +8,128 @@ const Projects = () => {
 
   const projects = [
     {
+      title: "OpenWave",
+      thumbnail: "📰",
+      technologies: ["JavaScript", "React", "Node.js", "MongoDB", "NewsAPI"],
+      duration: "April 2024 - Present",
+      description: "News aggregation platform with advanced search capabilities",
+      features: [
+        "OpenSource News API integration",
+        "Multiple news sources aggregation",
+        "Basic search functionality",
+        "Responsive news cards layout",
+        "Category-based filtering"
+      ],
+      workingOn: [
+        "Implementing advanced search with autocomplete",
+        "Developing article summarization feature",
+        "Building relevance-based ranking system",
+        "Implementing social sharing capabilities"
+      ],
+      sourceCode: "github.com/tourist03/OpenWave",
+      challenges: [
+        "Implementing efficient pagination for large datasets",
+        "Building a performant search engine with autocomplete",
+        "Managing multiple API requests and rate limiting",
+        "Optimizing data caching for better performance",
+        "Ensuring consistent mobile responsiveness",
+        "Handling real-time updates without overwhelming the API"
+      ],
+      learnings: "Learning about news APIs, search optimization, and building scalable React applications"
+    },
+    {
+      title: "iNotebook",
+      thumbnail: "📝",
+      technologies: ["MongoDB", "Express.js", "React", "Node.js", "JWT"],
+      duration: "2023",
+      description: "Full-stack cloud notes application with secure authentication",
+      features: [
+        "Secure user authentication with JWT",
+        "CRUD operations for notes",
+        "User profile management",
+        "Basic search functionality",
+        "Responsive design"
+      ],
+      workingOn: [
+        "Adding collaborative note sharing",
+        "Implementing rich text editor",
+        "Developing offline mode functionality",
+        "Building export/import feature"
+      ],
+      sourceCode: "github.com/tourist03/iNotebook",
+      challenges: [
+        "Implementing secure JWT authentication flow",
+        "Creating efficient database schema for notes and users",
+        "Managing real-time state updates across components",
+        "Building responsive UI for various screen sizes",
+        "Optimizing database queries for better performance",
+        "Implementing proper error handling and validation"
+      ],
+      learnings: "Mastered full-stack development with MERN and authentication best practices"
+    },
+    {
       title: "TextMaster Pro",
       thumbnail: "🔤",
       technologies: ["React.js", "JavaScript", "CSS"],
       duration: "2023",
-      description: "A versatile text manipulation tool with advanced features",
+      description: "Advanced text manipulation and analysis tool",
       features: [
         "Case conversion functionality",
         "Text reversal capabilities",
-        "Duplicate removal system",
-        "Email & phone number extraction"
+        "Basic text analysis",
+        "Copy to clipboard",
+        "Character counting"
+      ],
+      workingOn: [
+        "Adding advanced text analysis features",
+        "Implementing regex-based search",
+        "Building text comparison tool",
+        "Developing custom formatting options"
       ],
       liveLink: "https://tourist03.github.io/textmaster-pro/",
       sourceCode: "github.com/tourist03/textmaster-pro",
-      challenges: "Optimizing performance for large text inputs",
-      learnings: "Improved understanding of text processing algorithms"
+      challenges: [
+        "Optimizing algorithms for large text processing",
+        "Implementing complex text manipulation functions",
+        "Ensuring cross-browser compatibility",
+        "Managing state for undo/redo functionality",
+        "Building intuitive UI for complex operations",
+        "Handling different text encodings and formats"
+      ],
+      learnings: "Improved understanding of text processing algorithms and React optimization techniques"
     },
     {
       title: "Character Recognition & Prediction",
       thumbnail: "🔍",
       technologies: ["Python", "Flask", "Flutter", "TensorFlow", "OpenCV"],
-      duration: "2021-2022",
-      description: "ML-powered text recognition system",
+      duration: "June 2021 - May 2022",
+      description: "ML-powered text recognition system with advanced preprocessing",
       features: [
-        "Image to text conversion",
-        "Machine learning model integration",
-        "Image preprocessing capabilities",
-        "High accuracy prediction"
+        "Basic character recognition",
+        "Image preprocessing pipeline",
+        "Mobile app interface",
+        "Real-time camera feed processing",
+        "Basic error handling"
+      ],
+      workingOn: [
+        "Improving model accuracy",
+        "Adding support for multiple languages",
+        "Implementing batch processing",
+        "Enhancing preprocessing pipeline",
+        "Adding custom model training options"
       ],
       sourceCode: "www.github.com/tourist03",
-      challenges: "Improving model accuracy and preprocessing",
-      learnings: "Deep learning model optimization techniques"
+      challenges: [
+        "Collecting diverse handwriting samples for training",
+        "Implementing effective image preprocessing pipeline",
+        "Optimizing model architecture for better accuracy",
+        "Handling variations in writing styles and orientations",
+        "Managing model size vs accuracy trade-offs",
+        "Integrating TensorFlow model with Flutter frontend",
+        "Ensuring consistent performance across devices",
+        "Implementing efficient error handling and recovery"
+      ],
+      learnings: "Gained deep understanding of ML model optimization and image processing techniques"
     }
   ];
 
@@ -115,6 +206,15 @@ const Projects = () => {
                   </div>
 
                   <div className="bg-gray-700/50 p-4 rounded-lg">
+                    <h4 className="text-lg font-semibold mb-2">Working On</h4>
+                    <ul className="list-disc list-inside space-y-2">
+                      {project.workingOn.map((task, idx) => (
+                        <li key={idx} className="text-gray-300">{task}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-gray-700/50 p-4 rounded-lg">
                     <h4 className="text-lg font-semibold mb-2">Links</h4>
                     <div className="space-y-2">
                       {project.liveLink && (
@@ -141,7 +241,26 @@ const Projects = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-gray-700/50 p-4 rounded-lg">
                       <h4 className="text-lg font-semibold mb-2">Challenges</h4>
-                      <p className="text-gray-300">{project.challenges}</p>
+                      <ul className="list-disc list-inside space-y-2">
+                        {Array.isArray(project.challenges) ? 
+                          project.challenges.map((challenge, idx) => (
+                            <li key={idx} className="text-gray-300">
+                              {typeof challenge === 'string' ? 
+                                challenge : 
+                                <div className="ml-4">
+                                  <p className="font-medium">{challenge.title}</p>
+                                  <ul className="list-disc list-inside ml-4 mt-1">
+                                    {challenge.points.map((point, pidx) => (
+                                      <li key={pidx} className="text-gray-400">{point}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              }
+                            </li>
+                          )) : 
+                          <li className="text-gray-300">{project.challenges}</li>
+                        }
+                      </ul>
                     </div>
                     <div className="bg-gray-700/50 p-4 rounded-lg">
                       <h4 className="text-lg font-semibold mb-2">Learnings</h4>

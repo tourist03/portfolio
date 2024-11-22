@@ -1,5 +1,8 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import githubIcon from './GitHub.jpeg';  // Import GitHub icon
+import linkedinIcon from './LinkedIn.png';
+import mailIcon from './mail.png' ; // Import LinkedIn icon
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -8,7 +11,7 @@ const Contact = () => {
     {
       type: "Email",
       value: "singhvineet2001@gmail.com",
-      icon: "📧",
+      customIcon: mailIcon,
       link: "mailto:singhvineet2001@gmail.com",
       color: "from-blue-400 to-purple-500"
     },
@@ -22,16 +25,16 @@ const Contact = () => {
     {
       type: "LinkedIn",
       value: "vineetsingh02",
-      icon: "💼",
+      customIcon: linkedinIcon,
       link: "https://www.linkedin.com/in/vineetsingh02",
       color: "from-blue-500 to-blue-600"
     },
     {
       type: "GitHub",
       value: "tourist03",
-      icon: "👨‍💻",
+      customIcon: githubIcon,
       link: "https://github.com/tourist03",
-      color: "from-gray-600 to-gray-700"
+      color: "from-gray-600 to-gray-800"
     }
   ];
 
@@ -53,18 +56,17 @@ const Contact = () => {
 
       <div className="max-w-4xl mx-auto">
         <motion.h1 
-          className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-pink-500 to-purple-500 text-transparent bg-clip-text"
+          className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text"
           initial={{ y: -50 }}
           animate={{ y: 0 }}
         >
-          Contact Information
+          Get In Touch
         </motion.h1>
 
-        <motion.div
-          initial={{ x: -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
+        <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
         >
           {contactInfo.map((info, index) => (
             <motion.a
@@ -82,7 +84,15 @@ const Contact = () => {
               }}
             >
               <div className="flex items-center gap-4">
-                <span className="text-3xl">{info.icon}</span>
+                {info.customIcon ? (
+                  <img 
+                    src={info.customIcon} 
+                    alt={info.type} 
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="text-3xl">{info.icon}</span>
+                )}
                 <div>
                   <h3 className={`text-xl font-semibold bg-gradient-to-r ${info.color} text-transparent bg-clip-text`}>
                     {info.type}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import codechefIcon from './codechef.jpeg';
+import LeetcodeIcon from './leetcode.png';
 
 const CodingProfiles = () => {
   const navigate = useNavigate();
@@ -21,7 +23,8 @@ const CodingProfiles = () => {
         "Bronze Badge - Problem Solver"
       ],
       color: "from-orange-400 to-yellow-500",
-      icon: "👨‍🍳",
+    //   icon: "👨‍🍳",
+    customIcon: codechefIcon,
       badgeColor: "text-orange-400"
     },
     {
@@ -37,7 +40,8 @@ const CodingProfiles = () => {
         "Proficient in Data Structures & Algorithms"
       ],
       color: "from-orange-400 to-yellow-500",
-      icon: "⚔️",
+      //icon: "⚔️",
+      customIcon:LeetcodeIcon,
       badgeColor: "text-orange-400"
     }
   ];
@@ -86,7 +90,13 @@ const CodingProfiles = () => {
                 }}
               >
                 <div className="flex items-center gap-4 mb-6">
-                  <span className="text-4xl">{profile.icon}</span>
+                  {profile.customIcon && (
+                    <img 
+                      src={profile.customIcon} 
+                      alt={`${profile.platform} icon`}
+                      className="w-10 h-10 object-contain"
+                    />
+                  )}
                   <div>
                     <h2 className={`text-2xl font-bold bg-gradient-to-r ${profile.color} text-transparent bg-clip-text`}>
                       {profile.platform}
