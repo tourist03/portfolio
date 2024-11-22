@@ -1,17 +1,8 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Contact = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
 
   const contactInfo = [
     {
@@ -44,27 +35,6 @@ const Contact = () => {
     }
   ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simulate form submission
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error) {
-      setSubmitStatus('error');
-    }
-    
-    setIsSubmitting(false);
-    setTimeout(() => setSubmitStatus(null), 3000);
-  };
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   return (
     <motion.div 
       className="min-h-screen bg-gray-900 text-white p-8"
@@ -87,144 +57,42 @@ const Contact = () => {
           initial={{ y: -50 }}
           animate={{ y: 0 }}
         >
-          Get in Touch
+          Contact Information
         </motion.h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Contact Information */}
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="space-y-6"
-          >
-            <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
-            
-            {contactInfo.map((info, index) => (
-              <motion.a
-                key={info.type}
-                href={info.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <div className="flex items-center gap-4">
-                  <span className="text-2xl">{info.icon}</span>
-                  <div>
-                    <h3 className={`text-lg font-semibold bg-gradient-to-r ${info.color} text-transparent bg-clip-text`}>
-                      {info.type}
-                    </h3>
-                    <p className="text-gray-300">{info.value}</p>
-                  </div>
+        <motion.div
+          initial={{ x: -50, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          {contactInfo.map((info, index) => (
+            <motion.a
+              key={info.type}
+              href={info.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-6 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 10px 20px rgba(0,0,0,0.2)"
+              }}
+            >
+              <div className="flex items-center gap-4">
+                <span className="text-3xl">{info.icon}</span>
+                <div>
+                  <h3 className={`text-xl font-semibold bg-gradient-to-r ${info.color} text-transparent bg-clip-text`}>
+                    {info.type}
+                  </h3>
+                  <p className="text-gray-300 mt-1">{info.value}</p>
                 </div>
-              </motion.a>
-            ))}
-
-            {/* Social Links */}
-            <div className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Connect With Me</h2>
-              <div className="flex gap-4">
-                {/* Add your social media icons/links here */}
               </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium mb-2">Name</label>
-                <motion.input
-                  whileFocus={{ scale: 1.01 }}
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-3 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Email</label>
-                <motion.input
-                  whileFocus={{ scale: 1.01 }}
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-3 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Subject</label>
-                <motion.input
-                  whileFocus={{ scale: 1.01 }}
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-3 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">Message</label>
-                <motion.textarea
-                  whileFocus={{ scale: 1.01 }}
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="4"
-                  className="w-full p-3 bg-gray-800 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none"
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full p-4 rounded-lg font-semibold ${
-                  isSubmitting 
-                    ? 'bg-gray-600' 
-                    : 'bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600'
-                }`}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                {isSubmitting ? 'Sending...' : 'Send Message'}
-              </motion.button>
-
-              {/* Status Messages */}
-              {submitStatus && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`p-4 rounded-lg ${
-                    submitStatus === 'success' 
-                      ? 'bg-green-500/20 text-green-300' 
-                      : 'bg-red-500/20 text-red-300'
-                  }`}
-                >
-                  {submitStatus === 'success' 
-                    ? 'Message sent successfully!' 
-                    : 'Failed to send message. Please try again.'}
-                </motion.div>
-              )}
-            </form>
-          </motion.div>
-        </div>
+            </motion.a>
+          ))}
+        </motion.div>
       </div>
     </motion.div>
   );
