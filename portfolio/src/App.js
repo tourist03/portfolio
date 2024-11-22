@@ -18,19 +18,23 @@ function App() {
           <header className="px-6 py-12 border-b border-gray-200">
             <h1 className="text-4xl font-bold text-gray-900 text-center">Vineet Singh</h1>
             <div className="mt-4 flex flex-wrap justify-center gap-4 text-gray-600">
-              <a href="mailto:singhvineet2001@gmail.com" className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                <span>📧 singhvineet2001@gmail.com</span>
+              <a href="mailto:singhvineet2001@gmail.com" className="hover:text-blue-600 transition-colors flex items-center gap-2">
+                <img src="/gmail.jpeg" alt="Email" className="w-6 h-6 object-contain" />
+                <span>singhvineet2001@gmail.com</span>
               </a>
-              <a href="tel:+91-8929141357" className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                <span>📱 +91-8929141357</span>
+              <a href="tel:+91-8929141357" className="hover:text-blue-600 transition-colors flex items-center gap-2">
+                <img src="/phone.jpeg" alt="Phone" className="w-6 h-6 object-contain" />
+                <span>+91-8929141357</span>
               </a>
               <a href="https://www.linkedin.com/in/vineetsingh02" target="_blank" rel="noopener noreferrer" 
-                 className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                <span>💼 LinkedIn</span>
+                 className="hover:text-blue-600 transition-colors flex items-center gap-2">
+                <img src="/linkedIn.png" alt="LinkedIn" className="w-6 h-6 object-contain" />
+                <span>LinkedIn</span>
               </a>
               <a href="https://github.com/tourist03" target="_blank" rel="noopener noreferrer"
-                 className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                <span>👨‍💻 GitHub</span>
+                 className="hover:text-blue-600 transition-colors flex items-center gap-2">
+                <img src="/github.jpeg" alt="GitHub" className="w-6 h-6 object-contain" />
+                <span>GitHub</span>
               </a>
             </div>
           </header>

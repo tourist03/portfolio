@@ -18,6 +18,9 @@ module.exports = {
           '100%': { opacity: '1' },
         },
       },
+      backdropBlur: {
+        xs: '2px',
+      },
     },
   },
   plugins: [],
