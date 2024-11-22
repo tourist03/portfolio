@@ -9,6 +9,7 @@ const Home = () => {
     { title: "Projects", route: "/projects", color: "from-purple-500 to-pink-500", icon: "🚀" },
     { title: "Skills", route: "/skills", color: "from-green-500 to-emerald-500", icon: "🎯" },
     { title: "Education", route: "/education", color: "from-orange-500 to-yellow-500", icon: "🎓" },
+    { title: "Contact", route: "/contact", color: "from-indigo-500 to-purple-500", icon: "📧" }
   ];
 
   return (
