@@ -1,12 +1,19 @@
-import Header from './components/Header';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
+import Home from './pages/Home';
+import Experience from './pages/Experience';
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto bg-white shadow-lg">
-        <Header />
-      </div>
-    </div>
+    <Router>
+      <AnimatePresence mode='wait'>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/experience" element={<Experience />} />
+          {/* Add other routes as needed */}
+        </Routes>
+      </AnimatePresence>
+    </Router>
   );
 }
 
