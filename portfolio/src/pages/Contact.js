@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import githubIcon from './GitHub.jpeg';  // Import GitHub icon
+import githubIcon from './GitHub.jpeg';
 import linkedinIcon from './LinkedIn.png';
-import mailIcon from './mail.png' ; // Import LinkedIn icon
+import mailIcon from './mail.png' ;
 
 const Contact = () => {
   const navigate = useNavigate();
