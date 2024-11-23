@@ -1,7 +1,7 @@
 {
   "homepage": "https://tourist03.github.io/portfolio",
   "name": "portfolio",
-  "version": "0.1.0",
+  "version": "2.0.1",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -41,5 +41,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "Portfolio",
+  "main": "tailwind.config.js",
+  "repository": {
+    "type": "git",
+    "url": "portfolio"
+  },
+  "author": "tourist03",
+  "license": "ISC"
 }
