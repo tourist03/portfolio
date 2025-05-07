@@ -22,10 +22,8 @@ const CodingProfiles = () => {
         "Bronze Badge - Contest Contender",
         "Bronze Badge - Problem Solver"
       ],
-      color: "from-orange-400 to-yellow-500",
-    //   icon: "👨‍🍳",
-    customIcon: codechefIcon,
-      badgeColor: "text-orange-400"
+      customIcon: codechefIcon,
+      description: "Competitive Programming Platform"
     },
     {
       platform: "LeetCode",
@@ -39,31 +37,32 @@ const CodingProfiles = () => {
         "Solved 500+ problems",
         "Proficient in Data Structures & Algorithms"
       ],
-      color: "from-orange-400 to-yellow-500",
-      //icon: "⚔️",
-      customIcon:LeetcodeIcon,
-      badgeColor: "text-orange-400"
+      customIcon: LeetcodeIcon,
+      description: "Coding Practice Platform"
     }
   ];
 
   return (
     <motion.div 
-      className="min-h-screen bg-gray-900 text-white p-8"
+      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8 relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Background animated gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 animate-gradient-x" />
+
       <motion.button
         onClick={() => navigate('/')}
-        className="mb-8 text-gray-400 hover:text-white flex items-center gap-2"
+        className="mb-8 text-gray-400 hover:text-white flex items-center gap-2 glass px-4 py-2 rounded-lg"
         whileHover={{ x: -5 }}
       >
         ← Back to Home
       </motion.button>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.h1 
-          className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-yellow-400 to-orange-500 text-transparent bg-clip-text"
+          className="text-5xl font-bold mb-12 text-center gradient-text"
           initial={{ y: -50 }}
           animate={{ y: 0 }}
         >
@@ -83,64 +82,71 @@ const CodingProfiles = () => {
               className="block"
             >
               <motion.div
-                className="h-full p-6 bg-gray-800 rounded-xl hover:bg-gray-700/80"
+                className="glass rounded-2xl p-8 hover-lift"
                 whileHover={{ 
-                  scale: 1.03,
-                  boxShadow: "0 10px 20px rgba(0,0,0,0.2)"
+                  scale: 1.02,
+                  y: -5
                 }}
               >
-                <div className="flex items-center gap-4 mb-6">
-                  {profile.customIcon && (
+                <div className="flex items-start gap-6 mb-8">
+                  <div className="glass p-4 rounded-xl">
                     <img 
                       src={profile.customIcon} 
                       alt={`${profile.platform} icon`}
-                      className="w-10 h-10 object-contain"
+                      className="w-16 h-16 object-contain transform hover:scale-110 transition-transform duration-300"
                     />
-                  )}
+                  </div>
                   <div>
-                    <h2 className={`text-2xl font-bold bg-gradient-to-r ${profile.color} text-transparent bg-clip-text`}>
+                    <h2 className="text-3xl font-bold gradient-text">
                       {profile.platform}
                     </h2>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-gray-400">@{profile.username}</span>
-                      <span className={`font-semibold ${profile.badgeColor}`}>
-                        {profile.title}
+                    <p className="text-gray-400 mt-2">{profile.description}</p>
+                    <div className="flex items-center gap-3 mt-3">
+                      <span className="text-gray-300">@{profile.username}</span>
+                      <span className="glass px-4 py-1 rounded-full text-sm">
+                        Rating: {profile.rating}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <span className={`text-xl font-bold ${profile.badgeColor}`}>
-                    Rating: {profile.rating}
-                  </span>
-                </div>
-
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {profile.achievements.map((achievement, idx) => (
                     <motion.div
                       key={idx}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 + idx * 0.1 }}
-                      className="flex items-center gap-2"
+                      className="flex items-start gap-3"
                     >
-                      <span className="text-green-400">✓</span>
+                      <span className="text-blue-400 mt-1">•</span>
                       <span className="text-gray-300">{achievement}</span>
                     </motion.div>
                   ))}
                 </div>
 
                 <motion.div 
-                  className="mt-6 text-sm text-gray-400 hover:text-white transition-colors"
+                  className="mt-8 glass px-6 py-3 rounded-lg inline-flex items-center gap-2"
                   whileHover={{ x: 5 }}
                 >
-                  View Full Profile →
+                  <span>View Full Profile</span>
+                  <span className="text-xl">→</span>
                 </motion.div>
               </motion.div>
             </motion.a>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="mt-16 text-center"
+        >
+          <p className="text-gray-400 text-lg">
+            Regular participation in competitive programming contests helps me stay sharp and solve complex problems efficiently.
+          </p>
+        </motion.div>
       </div>
     </motion.div>
   );

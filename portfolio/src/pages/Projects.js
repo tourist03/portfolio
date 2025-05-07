@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -135,23 +135,26 @@ const Projects = () => {
 
   return (
     <motion.div 
-      className="min-h-screen bg-gray-900 text-white p-8"
+      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8 relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
+      {/* Background animated gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 animate-gradient-x" />
+
       {/* Back Button */}
       <motion.button
         onClick={() => navigate('/')}
-        className="mb-8 text-gray-400 hover:text-white flex items-center gap-2"
+        className="mb-8 text-gray-400 hover:text-white flex items-center gap-2 glass px-4 py-2 rounded-lg"
         whileHover={{ x: -5 }}
       >
         ← Back to Home
       </motion.button>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10">
         <motion.h1 
-          className="text-4xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text"
+          className="text-5xl font-bold mb-12 text-center gradient-text"
           initial={{ y: -50 }}
           animate={{ y: 0 }}
         >
@@ -165,110 +168,113 @@ const Projects = () => {
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: index * 0.2 }}
-              className="bg-gray-800 rounded-lg p-6 cursor-pointer"
+              className="glass rounded-2xl p-8 cursor-pointer hover-lift"
               onClick={() => setSelectedProject(selectedProject === project.title ? null : project.title)}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.01 }}
             >
               <div className="flex justify-between items-start">
-                <div className="flex items-center gap-4">
-                  <span className="text-4xl">{project.thumbnail}</span>
+                <div className="flex items-center gap-6">
+                  <span className="text-5xl transform hover:scale-110 transition-transform duration-300">
+                    {project.thumbnail}
+                  </span>
                   <div>
-                    <h2 className="text-2xl font-semibold text-purple-400">{project.title}</h2>
-                    <p className="text-gray-400 mt-1">{project.duration}</p>
+                    <h2 className="text-3xl font-bold gradient-text">{project.title}</h2>
+                    <p className="text-gray-400 mt-2">{project.duration}</p>
+                    <p className="text-gray-300 mt-2">{project.description}</p>
                   </div>
                 </div>
               </div>
 
-              {selectedProject === project.title && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  className="mt-6 space-y-4"
-                >
-                  <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <h4 className="text-lg font-semibold mb-2">Technologies</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map(tech => (
-                        <span key={tech} className="px-3 py-1 bg-purple-500/20 rounded-full text-sm">
-                          {tech}
-                        </span>
-                      ))}
+              <AnimatePresence>
+                {selectedProject === project.title && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-8 space-y-6"
+                  >
+                    <div className="glass p-6 rounded-xl">
+                      <h4 className="text-xl font-semibold mb-4 gradient-text">Technologies</h4>
+                      <div className="flex flex-wrap gap-3">
+                        {project.technologies.map(tech => (
+                          <span key={tech} className="px-4 py-2 glass rounded-full text-sm hover-lift">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <h4 className="text-lg font-semibold mb-2">Features</h4>
-                    <ul className="list-disc list-inside space-y-2">
-                      {project.features.map((feature, idx) => (
-                        <li key={idx} className="text-gray-300">{feature}</li>
-                      ))}
-                    </ul>
-                  </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="glass p-6 rounded-xl">
+                        <h4 className="text-xl font-semibold mb-4 gradient-text">Features</h4>
+                        <ul className="space-y-3">
+                          {project.features.map((feature, idx) => (
+                            <li key={idx} className="text-gray-300 flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
 
-                  <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <h4 className="text-lg font-semibold mb-2">Working On</h4>
-                    <ul className="list-disc list-inside space-y-2">
-                      {project.workingOn.map((task, idx) => (
-                        <li key={idx} className="text-gray-300">{task}</li>
-                      ))}
-                    </ul>
-                  </div>
+                      <div className="glass p-6 rounded-xl">
+                        <h4 className="text-xl font-semibold mb-4 gradient-text">Working On</h4>
+                        <ul className="space-y-3">
+                          {project.workingOn.map((task, idx) => (
+                            <li key={idx} className="text-gray-300 flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              {task}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
 
-                  <div className="bg-gray-700/50 p-4 rounded-lg">
-                    <h4 className="text-lg font-semibold mb-2">Links</h4>
-                    <div className="space-y-2">
-                      {project.liveLink && (
+                    <div className="glass p-6 rounded-xl">
+                      <h4 className="text-xl font-semibold mb-4 gradient-text">Links</h4>
+                      <div className="flex gap-4">
+                        {project.liveLink && (
+                          <a 
+                            href={project.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="glass px-6 py-3 rounded-lg hover-lift flex items-center gap-2"
+                          >
+                            🌐 Live Demo
+                          </a>
+                        )}
                         <a 
-                          href={project.liveLink}
+                          href={`https://${project.sourceCode}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-purple-400 hover:text-purple-300 block"
+                          className="glass px-6 py-3 rounded-lg hover-lift flex items-center gap-2"
                         >
-                          🌐 Live Demo
+                          💻 Source Code
                         </a>
-                      )}
-                      <a 
-                        href={`https://${project.sourceCode}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-purple-400 hover:text-purple-300 block"
-                      >
-                        💻 Source Code
-                      </a>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-gray-700/50 p-4 rounded-lg">
-                      <h4 className="text-lg font-semibold mb-2">Challenges</h4>
-                      <ul className="list-disc list-inside space-y-2">
-                        {Array.isArray(project.challenges) ? 
-                          project.challenges.map((challenge, idx) => (
-                            <li key={idx} className="text-gray-300">
-                              {typeof challenge === 'string' ? 
-                                challenge : 
-                                <div className="ml-4">
-                                  <p className="font-medium">{challenge.title}</p>
-                                  <ul className="list-disc list-inside ml-4 mt-1">
-                                    {challenge.points.map((point, pidx) => (
-                                      <li key={pidx} className="text-gray-400">{point}</li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              }
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="glass p-6 rounded-xl">
+                        <h4 className="text-xl font-semibold mb-4 gradient-text">Challenges</h4>
+                        <ul className="space-y-3">
+                          {project.challenges.map((challenge, idx) => (
+                            <li key={idx} className="text-gray-300 flex items-start gap-2">
+                              <span className="text-blue-400 mt-1">•</span>
+                              {challenge}
                             </li>
-                          )) : 
-                          <li className="text-gray-300">{project.challenges}</li>
-                        }
-                      </ul>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="glass p-6 rounded-xl">
+                        <h4 className="text-xl font-semibold mb-4 gradient-text">Key Learnings</h4>
+                        <p className="text-gray-300">{project.learnings}</p>
+                      </div>
                     </div>
-                    <div className="bg-gray-700/50 p-4 rounded-lg">
-                      <h4 className="text-lg font-semibold mb-2">Learnings</h4>
-                      <p className="text-gray-300">{project.learnings}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
