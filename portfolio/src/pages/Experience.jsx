@@ -1,10 +1,22 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Experience = () => {
   const navigate = useNavigate();
   const [selectedExp, setSelectedExp] = useState(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const transformedX = useTransform(mouseX, (value) => `${value}px`);
+  const transformedY = useTransform(mouseY, (value) => `${value}px`);
+
+  const handleMouseMove = (event) => {
+    const { currentTarget, clientX, clientY } = event;
+    const { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  };
 
   const experiences = [
     {
@@ -12,7 +24,9 @@ const Experience = () => {
       role: "Senior Software Engineer",
       period: "June 2022 - Present",
       location: "Pune, India",
-      technologies: ["React.js", "Node.js", "MongoDB", "Express.js", "AWS", "TypeScript", "Docker", "Kubernetes", "Redis", "GraphQL"],
+      color: "from-cyan-500 to-blue-500",
+      bgColor: "bg-violet-500/10",
+      technologies: ["Core Java","React.js","Node.js", "MongoDB", "Express.js", "AWS", "JavaScript", "Redis", "GraphQL"],
       keyProjects: [
         {
           name: "Microservices Architecture Migration",
@@ -73,6 +87,8 @@ const Experience = () => {
       role: "Software Engineer",
       period: "Sept 2021 - June 2022",
       location: "Remote, India",
+      color: "from-violet-500 to-fuchsia-500",
+      bgColor: "bg-cyan-500/10",
       technologies: ["Node.js", "React.js", "MongoDB", "Docker", "AWS", "Jest", "TypeScript"],
       keyProjects: [
         {
@@ -124,159 +140,242 @@ const Experience = () => {
 
   return (
     <motion.div 
-      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8 relative overflow-hidden"
+      className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {/* Background animated gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 animate-gradient-x" />
+      {/* Animated background patterns */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute w-full h-full">
+          {Array.from({ length: 15 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-white/5"
+              style={{
+                width: Math.random() * 300 + 50,
+                height: Math.random() * 300 + 50,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                x: [0, Math.random() * 100 - 50],
+                y: [0, Math.random() * 100 - 50],
+                scale: [1, Math.random() + 0.5],
+                opacity: [0.1, 0.3],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                repeatType: "reverse",
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+      </div>
 
-      <motion.button
-        onClick={() => navigate('/')}
-        className="mb-8 text-gray-400 hover:text-white flex items-center gap-2 glass px-4 py-2 rounded-lg"
-        whileHover={{ x: -5 }}
-      >
-        ← Back to Home
-      </motion.button>
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
+        <motion.button
+          onClick={() => navigate('/')}
+          className="mb-8 text-gray-400 hover:text-white flex items-center gap-2 glass px-4 py-2 rounded-lg"
+          whileHover={{ x: -5 }}
+        >
+          ← Back to Home
+        </motion.button>
 
-      <div className="max-w-6xl mx-auto relative z-10">
         <motion.h1 
-          className="text-5xl font-bold mb-12 text-center gradient-text"
+          className="text-6xl font-bold mb-12 text-center"
           initial={{ y: -50 }}
           animate={{ y: 0 }}
         >
-          Professional Experience
+          <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+            Professional Experience
+          </span>
         </motion.h1>
 
         <div className="space-y-8">
           {experiences.map((exp, index) => (
-            <motion.div 
+            <motion.div
               key={exp.company}
-              className="glass rounded-2xl overflow-hidden hover-lift"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              onMouseEnter={() => setSelectedExp(exp.company)}
+              onMouseLeave={() => setSelectedExp(null)}
+              onMouseMove={handleMouseMove}
+              className={`relative rounded-2xl ${exp.bgColor} 
+                         backdrop-blur-xl border border-white/10 overflow-hidden group`}
             >
-              {/* Clickable Header */}
               <motion.div
-                className="p-8 cursor-pointer hover:bg-white/5 transition-colors"
-                onClick={() => setSelectedExp(selectedExp === exp.company ? null : exp.company)}
-              >
-                <div className="flex justify-between items-start">
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{
+                  background: `radial-gradient(
+                    circle at var(--mouse-x) var(--mouse-y),
+                    rgba(255,255,255,0.1) 0%,
+                    transparent 60%
+                  )`,
+                  "--mouse-x": transformedX,
+                  "--mouse-y": transformedY,
+                }}
+              />
+
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-6">
                   <div>
-                    <h2 className="text-3xl font-bold gradient-text">{exp.company}</h2>
+                    <h2 className={`text-3xl font-bold bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                      {exp.company}
+                    </h2>
                     <h3 className="text-xl text-gray-300 mt-2">{exp.role}</h3>
                     <p className="text-gray-400 mt-1">{exp.location}</p>
                   </div>
-                  <div className="flex flex-col items-end">
+                  <div className="text-right">
                     <span className="text-gray-400">{exp.period}</span>
-                    <motion.span
-                      className="text-2xl mt-2"
-                      animate={{ rotate: selectedExp === exp.company ? 180 : 0 }}
-                    >
-                      ↓
-                    </motion.span>
                   </div>
                 </div>
-              </motion.div>
 
-              {/* Expandable Content */}
-              <AnimatePresence>
-                {selectedExp === exp.company && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="border-t border-white/10"
-                  >
-                    <div className="p-8 space-y-8">
-                      {/* Technologies */}
-                      <div>
-                        <h4 className="text-xl font-semibold mb-4 gradient-text">Technologies</h4>
-                        <div className="flex flex-wrap gap-3">
-                          {exp.technologies.map(tech => (
-                            <span key={tech} className="px-4 py-2 glass rounded-full text-sm hover-lift">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
+                <div className="flex flex-wrap gap-3 mb-6">
+                  {exp.technologies.map(tech => (
+                    <span key={tech} className={`px-4 py-2 rounded-full text-sm ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <AnimatePresence>
+                  {selectedExp === exp.company && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="space-y-6"
+                    >
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {exp.keyProjects.map((project, idx) => (
+                          <div key={project.name} className={`p-6 rounded-xl ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                            <h4 className={`text-xl font-semibold mb-4 bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                              {project.name}
+                            </h4>
+                            <ul className="space-y-2">
+                              {project.points.map((point, pointIdx) => (
+                                <motion.li
+                                  key={point}
+                                  initial={{ x: -20, opacity: 0 }}
+                                  animate={{ x: 0, opacity: 1 }}
+                                  transition={{ delay: pointIdx * 0.1 }}
+                                  className="flex items-start gap-2"
+                                >
+                                  <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2" />
+                                  <span className="text-gray-300">{point}</span>
+                                </motion.li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
                       </div>
 
-                      {/* Key Projects */}
-                      <div>
-                        <h4 className="text-xl font-semibold mb-4 gradient-text">Key Projects</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          {exp.keyProjects.map(project => (
-                            <div key={project.name} className="glass p-6 rounded-xl hover-lift">
-                              <h5 className="text-xl font-medium gradient-text mb-3">{project.name}</h5>
-                              <ul className="space-y-3">
-                                {project.points.map((point, idx) => (
-                                  <li key={idx} className="text-gray-300 flex items-start gap-2">
-                                    <span className="text-blue-400 mt-1">•</span>
-                                    {point}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Contributions */}
-                      <div>
-                        <h4 className="text-xl font-semibold mb-4 gradient-text">Key Contributions</h4>
-                        <div className="glass p-6 rounded-xl">
-                          <ul className="space-y-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className={`p-6 rounded-xl ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                          <h4 className={`text-xl font-semibold mb-4 bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                            Key Contributions
+                          </h4>
+                          <ul className="space-y-2">
                             {exp.contributions.map((contribution, idx) => (
-                              <li key={idx} className="text-gray-300 flex items-start gap-2">
-                                <span className="text-blue-400 mt-1">•</span>
-                                {contribution}
-                              </li>
+                              <motion.li
+                                key={contribution}
+                                initial={{ x: -20, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="flex items-start gap-2"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2" />
+                                <span className="text-gray-300">{contribution}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className={`p-6 rounded-xl ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                          <h4 className={`text-xl font-semibold mb-4 bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                            Achievements
+                          </h4>
+                          <ul className="space-y-2">
+                            {exp.achievements.map((achievement, idx) => (
+                              <motion.li
+                                key={achievement}
+                                initial={{ x: -20, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="flex items-start gap-2"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2" />
+                                <span className="text-gray-300">{achievement}</span>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
                       </div>
 
-                      {/* Impact */}
-                      <div>
-                        <h4 className="text-xl font-semibold mb-4 gradient-text">Impact</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div className="glass p-6 rounded-xl hover-lift">
-                            <h5 className="text-xl font-medium gradient-text mb-3">Technical Impact</h5>
-                            <ul className="space-y-3">
-                              {exp.impact.technical.map((point, idx) => (
-                                <li key={idx} className="text-gray-300 flex items-start gap-2">
-                                  <span className="text-blue-400 mt-1">•</span>
-                                  {point}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="glass p-6 rounded-xl hover-lift">
-                            <h5 className="text-xl font-medium gradient-text mb-3">Business Impact</h5>
-                            <ul className="space-y-3">
-                              {exp.impact.business.map((point, idx) => (
-                                <li key={idx} className="text-gray-300 flex items-start gap-2">
-                                  <span className="text-blue-400 mt-1">•</span>
-                                  {point}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className={`p-6 rounded-xl ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                          <h4 className={`text-xl font-semibold mb-4 bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                            Technical Impact
+                          </h4>
+                          <ul className="space-y-2">
+                            {exp.impact.technical.map((impact, idx) => (
+                              <motion.li
+                                key={impact}
+                                initial={{ x: -20, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="flex items-start gap-2"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2" />
+                                <span className="text-gray-300">{impact}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className={`p-6 rounded-xl ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                          <h4 className={`text-xl font-semibold mb-4 bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                            Business Impact
+                          </h4>
+                          <ul className="space-y-2">
+                            {exp.impact.business.map((impact, idx) => (
+                              <motion.li
+                                key={impact}
+                                initial={{ x: -20, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="flex items-start gap-2"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-white/50 mt-2" />
+                                <span className="text-gray-300">{impact}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
                         </div>
                       </div>
 
-                      {/* Feedback */}
-                      <div className="glass p-6 rounded-xl">
-                        <h4 className="text-xl font-semibold mb-3 gradient-text">Feedback</h4>
+                      <div className={`p-6 rounded-xl ${exp.bgColor} backdrop-blur-md border border-white/10`}>
+                        <h4 className={`text-xl font-semibold mb-4 bg-gradient-to-r ${exp.color} text-transparent bg-clip-text`}>
+                          Feedback
+                        </h4>
                         <p className="text-gray-300 italic">"{exp.feedback}"</p>
                       </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background: `linear-gradient(to right, ${exp.color.split(' ')[1]} 0%, transparent 100%)`,
+                  opacity: 0.1,
+                }}
+              />
             </motion.div>
           ))}
         </div>
