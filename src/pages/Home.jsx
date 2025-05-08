@@ -180,10 +180,12 @@ const Home = () => {
                 <div className="flex items-center gap-4 mb-4">
                   <span className="flex items-center justify-center w-14 h-14 rounded-full shadow group-hover:scale-110 transition-transform duration-300"
                         style={{
-                          background: 'linear-gradient(135deg, #a5b4fc 0%, #f472b6 100%)',
+                          background: section.color.includes('from-') 
+                            ? `linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to))`
+                            : 'linear-gradient(135deg, #a5b4fc 0%, #f472b6 100%)',
                           boxShadow: '0 4px 20px 0 rgba(139,92,246,0.15)'
                         }}>
-                    <span className="... group-hover:animate-bounce">
+                    <span className="group-hover:animate-pulse">
                       {section.icon}
                     </span>
                   </span>
