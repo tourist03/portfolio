@@ -1,6 +1,8 @@
 import { motion, useMotionValue, useTransform, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
+import { BriefcaseIcon, RocketLaunchIcon, SparklesIcon, AcademicCapIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { FaTrophy } from 'react-icons/fa';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ const Home = () => {
       route: "/experience", 
       color: "from-violet-500 to-fuchsia-500",
       bgColor: "bg-violet-500/20",
-      icon: "💼",
+      icon: <BriefcaseIcon className="w-8 h-8 text-violet-400" />,
       description: "Senior Software Engineer @ LTIMindtree",
       details: ["Full Stack Development", "Cloud Architecture", "Team Leadership"]
     },
@@ -33,7 +35,7 @@ const Home = () => {
       route: "/projects", 
       color: "from-cyan-500 to-blue-500",
       bgColor: "bg-cyan-500/20",
-      icon: "🚀",
+      icon: <RocketLaunchIcon className="w-8 h-8 text-cyan-400" />,
       description: "Featured Works & Contributions",
       details: ["Web Applications", "Cloud Solutions", "Open Source"]
     },
@@ -42,7 +44,7 @@ const Home = () => {
       route: "/skills", 
       color: "from-emerald-500 to-teal-500",
       bgColor: "bg-emerald-500/20",
-      icon: "🎯",
+      icon: <SparklesIcon className="w-8 h-8 text-emerald-400" />,
       description: "Technical Expertise",
       details: ["React.js", "Node.js", "AWS", "MongoDB"]
     },
@@ -51,7 +53,7 @@ const Home = () => {
       route: "/education", 
       color: "from-amber-500 to-orange-500",
       bgColor: "bg-amber-500/20",
-      icon: "🎓",
+      icon: <AcademicCapIcon className="w-8 h-8 text-amber-400" />,
       description: "Academic Journey",
       details: ["Computer Science", "Software Engineering", "Data Structures"]
     },
@@ -60,7 +62,7 @@ const Home = () => {
       route: "/contact", 
       color: "from-rose-500 to-pink-500",
       bgColor: "bg-rose-500/20",
-      icon: "📧",
+      icon: <EnvelopeIcon className="w-8 h-8 text-pink-400" />,
       description: "Let's Connect",
       details: ["Email", "LinkedIn", "GitHub"]
     },
@@ -69,7 +71,7 @@ const Home = () => {
       route: "/coding-profiles", 
       color: "from-indigo-500 to-purple-500",
       bgColor: "bg-indigo-500/20",
-      icon: "🏆",
+      icon: <FaTrophy className="w-8 h-8 text-yellow-400" />,
       description: "Competitive Programming",
       details: ["LeetCode", "CodeChef", "HackerRank"]
     }
@@ -176,8 +178,14 @@ const Home = () => {
               
               <div className="p-8 relative z-10">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-4xl transform group-hover:scale-110 transition-transform duration-300">
-                    {section.icon}
+                  <span className="flex items-center justify-center w-14 h-14 rounded-full shadow group-hover:scale-110 transition-transform duration-300"
+                        style={{
+                          background: 'linear-gradient(135deg, #a5b4fc 0%, #f472b6 100%)',
+                          boxShadow: '0 4px 20px 0 rgba(139,92,246,0.15)'
+                        }}>
+                    <span className="... group-hover:animate-bounce">
+                      {section.icon}
+                    </span>
                   </span>
                   <h3 className={`text-2xl font-bold bg-gradient-to-r ${section.color} text-transparent bg-clip-text`}>
                     {section.title}
