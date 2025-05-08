@@ -1,8 +1,7 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import githubIcon from './GitHub.jpeg';
-import linkedinIcon from './LinkedIn.png';
-import mailIcon from './mail.png';
+import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const Contact = () => {
     {
       type: "Email",
       value: "singhvineet2001@gmail.com",
-      customIcon: mailIcon,
+      icon: <EnvelopeIcon className="w-10 h-10 text-blue-500" />,
       link: "mailto:singhvineet2001@gmail.com",
       description: "Let's discuss your next project",
       color: "from-blue-500 to-cyan-500",
@@ -32,7 +31,7 @@ const Contact = () => {
     {
       type: "Phone",
       value: "+91-8929141357",
-      icon: "📱",
+      icon: <PhoneIcon className="w-10 h-10 text-emerald-500" />,
       link: "tel:+91-8929141357",
       description: "Available for calls",
       color: "from-emerald-500 to-teal-500",
@@ -41,7 +40,7 @@ const Contact = () => {
     {
       type: "LinkedIn",
       value: "vineetsingh02",
-      customIcon: linkedinIcon,
+      icon: <FaLinkedin className="w-10 h-10 text-purple-500" />,
       link: "https://www.linkedin.com/in/vineetsingh02",
       description: "Connect professionally",
       color: "from-purple-500 to-pink-500",
@@ -50,7 +49,7 @@ const Contact = () => {
     {
       type: "GitHub",
       value: "tourist03",
-      customIcon: githubIcon,
+      icon: <FaGithub className="w-10 h-10 text-amber-500" />,
       link: "https://github.com/tourist03",
       description: "Check out my code",
       color: "from-amber-500 to-orange-500",
@@ -105,7 +104,7 @@ const Contact = () => {
         </motion.button>
 
         <motion.h1 
-          className="text-6xl font-bold mb-12 text-center"
+          className="text-6xl font-bold mb-4 text-center"
           initial={{ y: -50 }}
           animate={{ y: 0 }}
         >
@@ -113,9 +112,17 @@ const Contact = () => {
             Get In Touch
           </span>
         </motion.h1>
+        <motion.p
+          className="text-xl text-gray-300 mb-12 text-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          Feel free to reach out for collaborations, project discussions, or just to say hello!
+        </motion.p>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 gap-10"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
         >
@@ -126,60 +133,27 @@ const Contact = () => {
               target="_blank"
               rel="noopener noreferrer"
               onMouseMove={handleMouseMove}
-              className={`relative rounded-2xl ${info.bgColor} 
-                         backdrop-blur-xl border border-white/10 overflow-hidden group`}
+              className={`group relative rounded-2xl ${info.bgColor} 
+                shadow-lg hover:shadow-2xl transition-shadow duration-300
+                border border-white/10 overflow-hidden flex items-center gap-6 p-8
+                hover:border-white/20 hover:scale-[1.03]`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               whileHover={{ y: -5 }}
             >
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{
-                  background: `radial-gradient(
-                    circle at var(--mouse-x) var(--mouse-y),
-                    rgba(255,255,255,0.1) 0%,
-                    transparent 60%
-                  )`,
-                  "--mouse-x": transformedX,
-                  "--mouse-y": transformedY,
-                }}
-              />
-
-              <div className="p-8">
-                <div className="flex items-start gap-6">
-                  {info.customIcon ? (
-                    <div className={`p-4 rounded-xl ${info.bgColor} backdrop-blur-md border border-white/10 group-hover:border-white/20 transition-colors`}>
-                      <img 
-                        src={info.customIcon} 
-                        alt={info.type} 
-                        className="w-12 h-12 rounded-lg object-cover transform group-hover:scale-110 transition-transform duration-300"
-                      />
-                    </div>
-                  ) : (
-                    <div className={`p-4 rounded-xl ${info.bgColor} backdrop-blur-md border border-white/10 group-hover:border-white/20 transition-colors`}>
-                      <span className="text-4xl transform group-hover:scale-110 transition-transform duration-300">
-                        {info.icon}
-                      </span>
-                    </div>
-                  )}
-                  <div>
-                    <h3 className={`text-2xl font-bold bg-gradient-to-r ${info.color} text-transparent bg-clip-text`}>
-                      {info.type}
-                    </h3>
-                    <p className="text-xl text-gray-300 mt-2">{info.value}</p>
-                    <p className="text-gray-400 mt-2">{info.description}</p>
-                  </div>
+              <div className="flex-shrink-0">
+                <div className={`flex items-center justify-center w-20 h-20 rounded-full ${info.bgColor} shadow-md transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl group-hover:ring-4 group-hover:ring-white/20`}>
+                  {info.icon}
                 </div>
               </div>
-
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background: `linear-gradient(to right, ${info.color.split(' ')[1]} 0%, transparent 100%)`,
-                  opacity: 0.1,
-                }}
-              />
+              <div>
+                <h3 className={`text-2xl font-bold bg-gradient-to-r ${info.color} text-transparent bg-clip-text`}>
+                  {info.type}
+                </h3>
+                <p className="text-lg text-gray-300 mt-1">{info.value}</p>
+                <p className="text-gray-400 mt-2">{info.description}</p>
+              </div>
             </motion.a>
           ))}
         </motion.div>
@@ -188,7 +162,7 @@ const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mt-16 text-center"
+          className="mt-20 text-center"
         >
           <p className="text-xl text-gray-300">
             I'm always open to discussing new projects, creative ideas or opportunities to be part of your visions.
