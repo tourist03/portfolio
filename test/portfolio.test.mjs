@@ -14,8 +14,8 @@ test('the rebuilt portfolio keeps its public address and corrected career facts'
 });
 
 test('project filters return the correct available work', () => {
-  assert.equal(filterProjects(projects, 'all').length, 3);
-  assert.deepEqual(filterProjects(projects, 'ai').map(item => item.id), ['openwave', 'digit-recognition']);
+  assert.equal(filterProjects(projects, 'all').length, 4);
+  assert.deepEqual(filterProjects(projects, 'ai').map(item => item.id), ['sense-ai', 'openwave', 'digit-recognition']);
   assert.deepEqual(filterProjects(projects, 'web').map(item => item.id), ['scribespace']);
   assert.deepEqual(filterProjects(projects, 'missing'), []);
 });
@@ -29,8 +29,8 @@ test('old portfolio bookmarks resolve to the replacement sections', () => {
 });
 
 test('case-study navigation wraps in both directions', () => {
-  assert.equal(nextProjectIndex(0, -1, 3), 2);
-  assert.equal(nextProjectIndex(2, 1, 3), 0);
+  assert.equal(nextProjectIndex(0, -1, projects.length), projects.length - 1);
+  assert.equal(nextProjectIndex(projects.length - 1, 1, projects.length), 0);
   assert.equal(nextProjectIndex(0, 1, 0), -1);
 });
 
@@ -40,6 +40,10 @@ test('the generated page has usable navigation, unique IDs, and correct project 
   assert.equal(ids.length, new Set(ids).size);
   for (const match of html.matchAll(/href="#([^"]+)"/g)) assert.ok(ids.includes(match[1]), `Missing section: ${match[1]}`);
   for (const project of projects) assert.ok(html.includes(`href="${project.source}"`));
+  assert.ok(html.includes('href="https://tourist03.github.io/Sense-AI/"'));
+  assert.ok(html.includes('Sample-data demo'));
+  assert.ok(html.includes('>4 selected projects</span>'));
+  assert.ok(html.includes('AI & ML <span>03</span>'));
   assert.ok(html.includes('Contractor via Tech Mahindra'));
   assert.ok(html.includes('mailto:singhvineet2001@gmail.com'));
   assert.ok(html.includes('download>Download CV'));

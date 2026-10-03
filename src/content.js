@@ -13,7 +13,23 @@ export const profile = {
 
 export const projects = [
   {
-    id: 'openwave', number: '01', name: 'OpenWave', subtitle: 'AI News Aggregator',
+    id: 'sense-ai', number: '01', name: 'Sense.AI', subtitle: 'News intelligence & editorial workspace',
+    category: 'ai', label: 'AI / FULL STACK', visual: 'intelligence', featured: true,
+    description: 'From a shared news corpus to personal briefings, research discovery, and editable reports. A local-first intelligence workspace with a React interface and Python backend.',
+    tags: ['React', 'FastAPI', 'Scrapy', 'Local models'],
+    source: 'https://github.com/tourist03/Sense-AI',
+    demo: 'https://tourist03.github.io/Sense-AI/', demoLabel: 'Sample-data demo',
+    challenge: 'Turn scattered coverage and research into useful, traceable information, while keeping personal reading choices separate from shared editorial workflows.',
+    approach: [
+      'A unified Scrapy pipeline collects and validates source material. MiniLM embeddings cluster related coverage, with structured summaries and local model fallbacks.',
+      'The React workspace connects a shared briefing, explainable For You ranking, private saved and hidden stories, and research discovery through same-origin FastAPI APIs.',
+      'Selected stories become editable reports with cross-article analysis, per-article impact sections, draft revisions, and document exports. The public demo reuses the interface with fictional samples and browser-local saves.',
+    ],
+    stack: ['React', 'Vite', 'Python', 'FastAPI', 'Scrapy', 'MiniLM', 'BART', 'APScheduler'],
+    takeaway: 'One connected path from source evidence to a usable briefing and report. The public demo uses prewritten AI text; live crawling, inference, and server exports require the configured Python backend.',
+  },
+  {
+    id: 'openwave', number: '02', name: 'OpenWave', subtitle: 'AI News Aggregator',
     category: 'ai', label: 'AI / NLP', visual: 'news', featured: true,
     description: 'Many sources. One clear story. A local AI pipeline that turns scattered reporting into searchable, summarized news.',
     tags: ['Python', 'FastAPI', 'React', 'Hugging Face'],
@@ -28,7 +44,7 @@ export const projects = [
     takeaway: 'A complete path from raw articles to organized information, with model inference running locally.',
   },
   {
-    id: 'scribespace', number: '02', name: 'ScribeSpace', subtitle: 'A space for ideas',
+    id: 'scribespace', number: '03', name: 'ScribeSpace', subtitle: 'A space for ideas',
     category: 'web', label: 'FULL STACK', visual: 'notes', featured: false,
     description: 'A cloud notebook for writing, organizing notes, and exploring ideas through a drawing canvas.',
     tags: ['React', 'Node.js', 'MongoDB', 'JWT'],
@@ -44,7 +60,7 @@ export const projects = [
     takeaway: 'An end-to-end web application with a public interface and a dedicated notes API.',
   },
   {
-    id: 'digit-recognition', number: '03', name: 'Digit Recognition', subtitle: 'From pixels to prediction',
+    id: 'digit-recognition', number: '04', name: 'Digit Recognition', subtitle: 'From pixels to prediction',
     category: 'ai', label: 'COMPUTER VISION', visual: 'digits', featured: false,
     description: 'A convolutional neural network that recognizes handwritten digits using image processing and TensorFlow.',
     tags: ['Python', 'TensorFlow', 'Keras', 'OpenCV'],
